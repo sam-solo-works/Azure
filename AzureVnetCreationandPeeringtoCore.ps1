@@ -8,7 +8,7 @@
 $azSub = 'test' #name of azure subscription
 $azSubCore = 'test' #name of azure core subscription
 $loc = 'test' #location of the resource group in azure
-$RG = 'test' # 'napa-eu2-nonprod01-davetest-rg' #name of Resource Group
+$RG = 'test' #name of Resource Group
 $coreRG = 'test' # name of core Resource Group
 $sNet = 'test' #name of subnet
 $vNet = 'test' #name of new virtual network
@@ -41,7 +41,7 @@ if (!(Get-AzVirtualNetwork -Name $vNet -ResourceGroupName $RG | Get-AzVirtualNet
         }
     $addTags += $tags#>
     $vNetObj = Get-AzVirtualNetwork -Name $vNet -ResourceGroupName $RG
-    #Add-AzVirtualNetworkPeering -Name $peerNewVNet -VirtualNetwork $vNetObj -RemoteVirtualNetworkId "/subscriptions/5228a252-f3a8-44a9-a1a0-066bad4ab7b4/resourceGroups/napa-eu2-core01-networking-rg/providers/Microsoft.Network/virtualNetworks/napa-eu2-core01-01-vnet"
+    #Add-AzVirtualNetworkPeering -Name $peerNewVNet -VirtualNetwork $vNetObj -RemoteVirtualNetworkId "/subscriptions/52/vnet"
 }    
 
 else{
