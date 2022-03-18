@@ -5,9 +5,9 @@
     DateWritten: 10/19/2021 DatePublished: 10/19/2021 DateLastChangeMade: 10/19/2021
 #>  
 
-$VPNName = 'HCA_Healthcare' #name of new VPN
-$azSub = 'NAPA-IT-CORE01'
-$RG = 'napa-eu2-core01-networking-rg'
+$VPNName = '' #name of new VPN
+$azSub = ''
+$RG = 'rg'
 $VPNConnectName = $VPNName + "_connection"
 $localConnectName = $VPNName + "_local_gateway" 
 $i = 10
