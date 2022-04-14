@@ -1,6 +1,6 @@
 ﻿<#  Task: Automate creating azure Virtual networks and peers to core azure virtual network.
     Want: Check for vnet prefix prior to implementing.
-          Add multiple tags at once.
+            Add multiple tags at once.
     Version: 1.5
     Author: Sam Solmonson
     DateWritten: 10/6/2021 DatePublished: -/-/- DateLastChangeMade: 10/12/2021
@@ -12,17 +12,17 @@ $RG = 'test' #name of Resource Group
 $coreRG = 'test' # name of core Resource Group
 $sNet = 'test' #name of subnet
 $vNet = 'test' #name of new virtual network
-$tags = @{
+<#$tags = @{
 'Created By'='Script'
 'Owner'='Creator' #Hash table created for tags
 'Project'='test'
-}
+}#>
 $vNetPrefix = '192.168.255.0' #IPs of new virtual network 
 $sNetPrefix = '192.168.255.0/27' #IPs of new subnet of new virtual network
 $coreVNet = 'test'
-$coreVNetID = 'test'
-$peerCore = $corevnet + "_to_" + $vnet #naming convention for core side peer
-$peerNewVNet = $vNet + "_to_" + $coreVNet #naming convention for vnet side peer
+#$coreVNetID = 'test'
+#$peerCore = $corevnet + "_to_" + $vnet #naming convention for core side peer
+#$peerNewVNet = $vNet + "_to_" + $coreVNet #naming convention for vnet side peer
 $vnetConnectName = $vnet + "_connection" #naming convention for vnet GW connection
 
 
@@ -36,7 +36,7 @@ if (!(Get-AzVirtualNetwork -Name $vNet -ResourceGroupName $RG | Get-AzVirtualNet
         if(!$key){
             if ($tags.ContainsKey($key)){
             $addTags.Remove($key)
-             }
+                }
             }
         }
     $addTags += $tags#>
