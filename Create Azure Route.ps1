@@ -4,7 +4,7 @@ $routeName = read-host -prompt "Enter the name of these routes"
 $filename = read-host -prompt "Enter the filepath to the routes csv" #C:\test\AzureRoutes.csv
 $routeAddresses = @()
 $addRoutes = Import-Csv -path $filename -delimiter ',' | ForEach-Object {$routeAddresses += $_.IPAddress}
-$nextHopAddress = "10.201.102.4"
+$nextHopAddress = #add your next hop address here
 
 function Wait-KeyPress
 {
