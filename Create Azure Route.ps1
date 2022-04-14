@@ -1,21 +1,45 @@
 $azSub = read-host -prompt "Enter the Azure Subscription"
 $RG = read-host -prompt "Enter the Resource Group"
 $routeName = read-host -prompt "Enter the name of these routes"
+$filename = read-host -prompt "Enter the filepath to the routes csv" #C:\test\AzureRoutes.csv
 $routeAddresses = @()
-$addressAdd = (read-host -prompt "Enter the addresses of these routes. Type 'end' when finished")
-$pattern = "^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$"
+$addRoutes = Import-Csv -path $filename -delimiter ',' | ForEach-Object {$routeAddresses += $_.IPAddress}
+$nextHopAddress = "10.201.102.4"
+
+function Wait-KeyPress
+{
+    param
+    (
+        [string]
+        $Message = 'Press Enter to verify',
+
+        [ConsoleKey]
+        $Key = [ConsoleKey]::Enter
+    )
+    
+    # emit your custom message
+    Write-Host -Object $Message -ForegroundColor Yellow -BackgroundColor Black
+    
+    # use a blocking call because we *want* to wait
+    do
+    {
+        $keyInfo = [Console]::ReadKey($false)
+    } until ($keyInfo.Key -eq $key)
+}
+
+write-host "Here are the IP addresses designated for route creation. Please verify."
+foreach ($i in $routeAddresses) {
+    $i = [ipaddress]$i
+    if([ipaddress]$i){
+        # $i = $i + "/32"
+    Write-Host $i
+    }
+}
+Wait-KeyPress
 
 Connect-AzAccount
 Select-AzSubscription -SubscriptionName $azSub
-do{
-    if ($addressAdd -ne "" -and $addressAdd -ne $null -and $addressAdd -match $pattern){
-        $routeAddresses += $addressadd
-        Start-Sleep
-        [System.Threading.Thread]::Sleep()
-        Read-Host
-        [Console]::ReadKey()
-        $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    }
+
+foreach ($i in $routeAddresses) {
+    new-Azrouteconfig -Name $routeName -ResourceGroupName $RG -AddressPrefix $i -NextHopType VirtualAppliance -nextHopAddress $nextHopAddress
 }
-until ($addressAdd -eq 'end')
-$routeAddresses
