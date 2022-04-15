@@ -31,8 +31,7 @@ write-host "Here are the IP addresses designated for route creation. Please veri
 foreach ($i in $routeAddresses) {
     $i = [ipaddress]$i
     if([ipaddress]$i){
-        # $i = $i + "/32"
-    Write-Host $i
+        Write-Host $i
     }
 }
 Wait-KeyPress
@@ -41,5 +40,8 @@ Connect-AzAccount
 Select-AzSubscription -SubscriptionName $azSub
 
 foreach ($i in $routeAddresses) {
+    convert-string $i
+    $i = $i.tostring()
+    $i = $i + "/32"
     new-Azrouteconfig -Name $routeName -ResourceGroupName $RG -AddressPrefix $i -NextHopType VirtualAppliance -nextHopAddress $nextHopAddress
 }
