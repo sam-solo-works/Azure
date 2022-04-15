@@ -6,6 +6,7 @@ $filename = read-host -prompt "Enter the filepath to the routes csv" #C:\test\Az
 $routeAddresses = @()
 $addRoutes = Import-Csv -path $filename -delimiter ',' | ForEach-Object {$routeAddresses += $_.IPAddress}
 $nextHopAddress = #add your next hop address here
+$count = 0
 
 function Wait-KeyPress
 {
@@ -45,7 +46,9 @@ $getRouteTable = Get-AzRouteTable -ResourceGroupName $RG -Name $routeTable
 foreach ($i in $routeAddresses) {
     $i = $i.tostring()
     $i = $i + "/32"
-    $routeName = $routeName + 1
-    Add-AzRouteConfig -Name $routeName -AddressPrefix $i -NextHopType VirtualAppliance -NextHopIpAddress $nextHopAddress -RouteTable $getRouteTable
+    if ($a -lt $routeAddresses.count){
+        $count++
+        $routeNameCounted = $routeName + $count}
+    New-AzRouteConfig -Name $routeNameCounted -AddressPrefix $i -NextHopType VirtualAppliance -NextHopIpAddress $nextHopAddress -RouteTable $getRouteTable
     # new-Azrouteconfig -Name $routeName -ResourceGroupName $RG -AddressPrefix $i -NextHopType VirtualAppliance -nextHopAddress $nextHopAddress
 }
