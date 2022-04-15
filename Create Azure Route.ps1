@@ -49,7 +49,5 @@ foreach ($i in $routeAddresses) {
     if ($count -lt $routeAddresses.count){
         $count++
         $routeNameCounted = $routeName + $count}
-    #$route =  Add-AzRouteConfig -Name $routeNameCounted -AddressPrefix $i -NextHopType VirtualAppliance -NextHopIpAddress $nextHopAddress #-RouteTable $getRouteTable
-    #$getRouteTable | $route |
     Add-AzRouteConfig -Name $routeNameCounted -AddressPrefix $i -NextHopType VirtualAppliance -NextHopIpAddress $nextHopAddress -RouteTable $getRouteTable | Set-AzRouteTable
 }
