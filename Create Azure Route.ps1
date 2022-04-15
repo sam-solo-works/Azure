@@ -46,9 +46,10 @@ $getRouteTable = Get-AzRouteTable -ResourceGroupName $RG -Name $routeTable
 foreach ($i in $routeAddresses) {
     $i = $i.tostring()
     $i = $i + "/32"
-    if ($a -lt $routeAddresses.count){
+    if ($count -lt $routeAddresses.count){
         $count++
         $routeNameCounted = $routeName + $count}
-    New-AzRouteConfig -Name $routeNameCounted -AddressPrefix $i -NextHopType VirtualAppliance -NextHopIpAddress $nextHopAddress -RouteTable $getRouteTable
-    # new-Azrouteconfig -Name $routeName -ResourceGroupName $RG -AddressPrefix $i -NextHopType VirtualAppliance -nextHopAddress $nextHopAddress
+    #$route =  Add-AzRouteConfig -Name $routeNameCounted -AddressPrefix $i -NextHopType VirtualAppliance -NextHopIpAddress $nextHopAddress #-RouteTable $getRouteTable
+    #$getRouteTable | $route |
+    Add-AzRouteConfig -Name $routeNameCounted -AddressPrefix $i -NextHopType VirtualAppliance -NextHopIpAddress $nextHopAddress -RouteTable $getRouteTable | Set-AzRouteTable
 }
