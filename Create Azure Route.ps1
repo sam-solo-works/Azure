@@ -1,5 +1,6 @@
 $azSub = read-host -prompt "Enter the Azure Subscription"
 $RG = read-host -prompt "Enter the Resource Group"
+$routeTable = read-host -prompt "Enter the Route Table Name"
 $routeName = read-host -prompt "Enter the name of these routes"
 $filename = read-host -prompt "Enter the filepath to the routes csv" #C:\test\AzureRoutes.csv
 $routeAddresses = @()
@@ -39,9 +40,12 @@ Wait-KeyPress
 Connect-AzAccount
 Select-AzSubscription -SubscriptionName $azSub
 
+$getRouteTable = Get-AzRouteTable -ResourceGroupName $RG -Name $routeTable
+
 foreach ($i in $routeAddresses) {
-    convert-string $i
     $i = $i.tostring()
     $i = $i + "/32"
-    new-Azrouteconfig -Name $routeName -ResourceGroupName $RG -AddressPrefix $i -NextHopType VirtualAppliance -nextHopAddress $nextHopAddress
+    $routeName = $routeName + 1
+    Add-AzRouteConfig -Name $routeName -AddressPrefix $i -NextHopType VirtualAppliance -NextHopIpAddress $nextHopAddress -RouteTable $getRouteTable
+    # new-Azrouteconfig -Name $routeName -ResourceGroupName $RG -AddressPrefix $i -NextHopType VirtualAppliance -nextHopAddress $nextHopAddress
 }
