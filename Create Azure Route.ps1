@@ -1,3 +1,10 @@
+<#  Task: Automate adding routes to route tables within azure.
+    Want: 
+    Version: 1.0
+    Author: Sam Solmonson
+    DateWritten: 4/15/2022 DatePublished: 4/15/2022 DateLastChangeMade: 4/15/2022
+#>  
+
 $azSub = read-host -prompt "Enter the Azure Subscription"
 $RG = read-host -prompt "Enter the Resource Group"
 $routeTable = read-host -prompt "Enter the Route Table Name"
